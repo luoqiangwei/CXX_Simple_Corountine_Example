@@ -44,7 +44,9 @@ struct Note {
 
 struct Input {
     Note& _in;
-    bool await_ready() { return false; }
+    // 控制co_await的时候是否暂停并暂时返回，下一次执行时将会继续从暂停位置继续
+    // true是不返回，直接执行
+    bool await_ready() { return true; }
     void await_suspend(coroutine_handle<CoRet::promise_type> h) {}
     int await_resume() { return _in.guess; }
 };
@@ -56,12 +58,16 @@ CoRet Guess(Note& note) {
     // co_await promise.initial_suspend();
     int res = (rand() % 30) + 1;
     Input input{ note };
-    int g = co_await input;
-    cout << "coroutine: You guess " << g << endl;
-    
-    co_yield (res > g ? 1 : (res == g ? 0 : -1));
-    // co_await promise.yield_value();
-    cout << "coroutine: return res " << res << endl;
+    while (true) {
+        int g = co_await input;
+        cout << "coroutine: You guess " << g << endl;
+//        cout << "coroutine: " << res << endl;
+        int result = res < g ? 1 : (res == g ? 0 : -1);
+        // co_await promise.yield_value();
+        co_yield result;
+        if (result == 0) break;
+    }
+
     // co_return之后，协程状态将会变为“完成”
     co_return res;
     // co_await promise.final_suspend();
@@ -75,11 +81,15 @@ int main(int argc, const char * argv[]) {
     Note note;
     auto ret = Guess(note);
     cout << "main: make a guess ..." << endl;
-    note.guess = 15;
-    ret._h.resume(); // resume from co_yield
-    cout << "main: result is " <<
-        ((ret._h.promise()._out == 1) ? "larger" :
-         ((ret._h.promise()._out == 0) ? "the same" : "smaller")) << endl;
+    while (true) {
+        std::cin >> note.guess;
+//        cout << "main: You input: " << note.guess << endl;
+        ret._h.resume();
+        cout << "main: result is " <<
+            ((ret._h.promise()._out == 1) ? "larger" :
+             ((ret._h.promise()._out == 0) ? "the same" : "smaller")) << endl;
+        if (ret._h.promise()._out == 0) break;
+    }
     
     ret._h.resume(); // resume from co_yield
     if (ret._h.done()) {

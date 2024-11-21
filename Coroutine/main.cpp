@@ -14,27 +14,47 @@ using namespace std;
 //      - 协程被调用时的行为
 //      - 协程返回时的行为（包含异常时返回的行为）
 //      - 自定义co_return或co_yield表达式的对应行为
+//        - suspend_never，在co_return或者co_yield运算的时候不停止协程运行
+//        - suspend_always，在co_return或者co_yield运算的时候停止协程运行
 struct CoRet {
+    // 协程的Promise接口必须叫promise_type
     struct promise_type {
         // 存储co_yield时返回的值。
         int _out;
         // 存储最终的返回值
         int _res;
+        // 存储协程中的异常
+        std::exception_ptr exception_;
+        
+        // 初次执行协程体时执行（在初始化协程并执行的时候调用，此函数可用于初始化
+        // 用户自定义协程状态信息，同时控制协程是否继续执行）
+        //    其他协程或线程再次执行resume恢复协程执行
         suspend_never initial_suspend() { return {}; }
-//        suspend_never final_suspend() noexcept { return {}; }
+        // 在协程体全部执行结束后执行（即将销毁时调用，此时可以销毁用户自定义协程
+        // 状态信息，同时可以暂停协程销毁，让其他协程或线程获取到最终结果）
+        //    其他协程或线程再次执行resume恢复协程执行后，销毁
+        //
         // 最后必须得suspend，不暂停的话，结构会被销毁，无法拿到最后的返回值
         suspend_always final_suspend() noexcept { return {}; }
-        void unhandled_exception() {}
+
+        // 协程未捕获异常
+        void unhandled_exception() {
+            exception_ = std::current_exception();
+        }
+
+        // 创建协程时，返回Promise接口
         CoRet get_return_object() {
             return  {
                 coroutine_handle<promise_type>::from_promise(*this)
             };
         }
-        suspend_always yield_value(int r) {
+
+        // 控制co_yield
+        suspend_never yield_value(int r) {
             _out = r;
             return {};
         }
-        // 用于协程最终return的结果
+        // 控制co_return，用于协程最终return的结果
         void return_value(int r) {
             _res = r;
             cout << "coroutine: set res " << r << endl;
@@ -56,8 +76,21 @@ struct Input {
     Note& _in;
     // 控制co_await的时候是否暂停并暂时返回，下一次执行时将会继续从暂停位置继续
     // true是不返回，直接执行
-    bool await_ready() { return true; }
+    
+    // await_ready()在执行co_await表达式求值时先被调用
+    // - 返回值表示异步操作是否完成，完成即可继续执行，否则协程被挂起
+    //   - 返回true，不会挂起协程，其他两个函数不被执行
+    //   - 返回false，表示异步操作未结束，协程被挂起
+    bool await_ready() { return false; }
+    // await_suspend(coroutine_handle<CoRet::promise_type> h)
+    // 在await_ready()返回false的时候被调用
+    // - 用于挂起协程，暂停执行，并传递coroutine_handle，用于在异步操作完成，协程
+    //   恢复时执行使用。协程状态会被保存，之后从当前点恢复执行
+    // - await_suspend()用于设置一些在异步操作完成后，需要检查或清理的资源，例如异步
+    //   操作完成的回调函数
     void await_suspend(coroutine_handle<CoRet::promise_type> h) {}
+    // await_resume()异步操作完成，并且await_suspend()保存协程状态后被调用
+    // - 用于恢复协程执行，并返回异步操作的结果（需要释放await_suspend使用的资源等）
     int await_resume() { return _in.guess; }
 };
 
@@ -69,13 +102,13 @@ CoRet Guess(Note& note) {
     int res = (rand() % 30) + 1;
     // 通过note建立数据交互联系，主要是用于获取协程调用者传入的值
     Input input{ note };
+    cout << "coroutine: Init Finish" << endl;
     while (true) {
         int g = co_await input;
-        cout << "coroutine: You guess " << g << endl;
-//        cout << "coroutine: " << res << endl;
+        cout << "coroutine: You guess " << g << ", res: " << res << endl;
         int result = res < g ? 1 : (res == g ? 0 : -1);
         // co_await promise.yield_value();
-        // 中断协程执行，并且返回一个值
+        // 不中断协程执行，并且返回一个值
         co_yield result;
         if (result == 0) break;
     }
@@ -90,12 +123,12 @@ CoRet Guess(Note& note) {
 
 int main(int argc, const char * argv[]) {
     srand((uint)time(nullptr));
-    Note note;
+    Note note = {};
     auto ret = Guess(note);
     cout << "main: make a guess ..." << endl;
     while (true) {
         std::cin >> note.guess;
-//        cout << "main: You input: " << note.guess << endl;
+        cout << "main: You input: " << note.guess << endl;
         // 继续执行协程
         ret._h.resume();
         cout << "main: result is " <<
@@ -104,7 +137,7 @@ int main(int argc, const char * argv[]) {
         if (ret._h.promise()._out == 0) break;
     }
     
-    ret._h.resume(); // resume from co_yield
+//    ret._h.resume(); // resume from co_yield
     if (ret._h.done()) {
         cout << "main: the result is " << ret._h.promise()._res << endl;
         ret._h.destroy();

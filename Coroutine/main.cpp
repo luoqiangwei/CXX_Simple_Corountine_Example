@@ -61,47 +61,52 @@ struct CoRet {
         }
     };
     
-    coroutine_handle<promise_type> _h; // _h.resume(), _h()
-};
-
-struct Note {
-    int guess;
-};
-
-// Awaitable接口，指定一系列方法控制co_await表达式的语义。
-//      当一个值被co_await时，代码会被转换成awaitable对象的一系列方法的调用。
-//      - 可以控制是否挂起当前协程。（await_ready，true是不挂起，false是挂起）
-//      - 协程恢复时，返回的值（await_resume）
-struct Input {
-    Note& _in;
-    // 控制co_await的时候是否暂停并暂时返回，下一次执行时将会继续从暂停位置继续
-    // true是不返回，直接执行
+    // Some Data
+    struct Note {
+        int guess;
+    };
     
-    // await_ready()在执行co_await表达式求值时先被调用
-    // - 返回值表示异步操作是否完成，完成即可继续执行，否则协程被挂起
-    //   - 返回true，不会挂起协程，其他两个函数不被执行
-    //   - 返回false，表示异步操作未结束，协程被挂起
-    bool await_ready() { return false; }
-    // await_suspend(coroutine_handle<CoRet::promise_type> h)
-    // 在await_ready()返回false的时候被调用
-    // - 用于挂起协程，暂停执行，并传递coroutine_handle，用于在异步操作完成，协程
-    //   恢复时执行使用。协程状态会被保存，之后从当前点恢复执行
-    // - await_suspend()用于设置一些在异步操作完成后，需要检查或清理的资源，例如异步
-    //   操作完成的回调函数
-    void await_suspend(coroutine_handle<CoRet::promise_type> h) {}
-    // await_resume()异步操作完成，并且await_suspend()保存协程状态后被调用
-    // - 用于恢复协程执行，并返回异步操作的结果（需要释放await_suspend使用的资源等）
-    int await_resume() { return _in.guess; }
+    // Awaitable接口，指定一系列方法控制co_await表达式的语义。
+    //      当一个值被co_await时，代码会被转换成awaitable对象的一系列方法的调用。
+    //      - 可以控制是否挂起当前协程。（await_ready，true是不挂起，false是挂起）
+    //      - 协程恢复时，返回的值（await_resume）
+    struct Input {
+        Note& _in;
+        // 控制co_await的时候是否暂停并暂时返回，下一次执行时将会继续从暂停位置继续
+        // true是不返回，直接执行
+        
+        // await_ready()在执行co_await表达式求值时先被调用
+        // - 返回值表示异步操作是否完成，完成即可继续执行，否则协程被挂起
+        //   - 返回true，不会挂起协程，其他两个函数不被执行
+        //   - 返回false，表示异步操作未结束，协程被挂起
+        bool await_ready() { return false; }
+        // await_suspend(coroutine_handle<CoRet::promise_type> h)
+        // 在await_ready()返回false的时候被调用
+        // - 用于挂起协程，暂停执行，并传递coroutine_handle，用于在异步操作完成，协程
+        //   恢复时执行使用。协程状态会被保存，之后从当前点恢复执行
+        // - await_suspend()用于设置一些在异步操作完成后，需要检查或清理的资源，例如异步
+        //   操作完成的回调函数
+        void await_suspend(coroutine_handle<CoRet::promise_type> h) {}
+        // await_resume()异步操作完成，并且await_suspend()保存协程状态后被调用
+        // - 用于恢复协程执行，并返回异步操作的结果（需要释放await_suspend使用的资源等）
+        int await_resume() { return _in.guess; }
+    };
+
+    // 构造时，调用get_return_object赋值，coroutine_handle<promise_type>只能有一个这样的成员,
+    // 如果有两个这种类型的成员，会只赋值给结构体中第一个，第二个不会被初始化！
+    coroutine_handle<promise_type> _h; // _h.resume(), _h()
+    
 };
+
 
 // Guess是一个协程实现
-CoRet Guess(Note& note) {
+CoRet Guess(CoRet::Note& note) {
     // CoRet::promise_type promise;
     // CoRet ret = promise.get_return_object();
     // co_await promise.initial_suspend();
     int res = (rand() % 30) + 1;
     // 通过note建立数据交互联系，主要是用于获取协程调用者传入的值
-    Input input{ note };
+    CoRet::Input input{ note };
     cout << "coroutine: Init Finish" << endl;
     while (true) {
         int g = co_await input;
@@ -123,7 +128,7 @@ CoRet Guess(Note& note) {
 
 int main(int argc, const char * argv[]) {
     srand((uint)time(nullptr));
-    Note note = {};
+    CoRet::Note note = {};
     auto ret = Guess(note);
     cout << "main: make a guess ..." << endl;
     while (true) {

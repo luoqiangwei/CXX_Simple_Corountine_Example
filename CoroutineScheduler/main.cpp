@@ -8,6 +8,7 @@
 #include <iostream>
 #include <filesystem>
 #include <fstream>
+#include <thread>
 #include <vector>
 #include <coroutine>
 #include <mutex>
@@ -40,19 +41,29 @@ struct Task {
 class Scheduler {
     std::queue<Task::handle_type> tasks;
     std::mutex mtx;
+    std::condition_variable cv;
+    bool stop = false;
 
 public:
     void schedule(Task::handle_type task) {
-        std::lock_guard<std::mutex> lock(mtx);
-        tasks.push(task);
+        {
+            std::lock_guard<std::mutex> lock(mtx);
+            tasks.push(task);
+        }
+        cv.notify_one();
     }
 
     void run() {
-        while (!tasks.empty()) {
-            mtx.lock();
-            auto task = tasks.front();
-            tasks.pop();
-            mtx.unlock();
+        while (true) {
+            Task::handle_type task;
+            {
+                std::unique_lock<std::mutex> lock(mtx);
+                cv.wait(lock, [this]() { return !tasks.empty() || stop; });
+                if (stop && tasks.empty()) return;
+                task = tasks.front();
+                tasks.pop();
+            }
+            
             task.resume();
             if (task.done()) {
                 task.destroy();  // 运行完成后销毁句柄
@@ -61,6 +72,14 @@ public:
                 schedule(task);
             }
         }
+    }
+    
+    void shutdown() {
+        {
+            std::lock_guard<std::mutex> lock(mtx);
+            stop = true;
+        }
+        cv.notify_all();
     }
 };
 
@@ -110,9 +129,22 @@ int main() {
     fs::path dst_dir = "/Users/luoqiangwei/Downloads/testb";
     fs::create_directories(dst_dir);
     
+    auto start = std::chrono::high_resolution_clock::now();
+    // 运行协程调度器的线程
+    std::thread worker([]() { scheduler.run(); });
     CopyDirectory(src_dir, dst_dir);
-    // 协程调度(可以封装到一个单独的线程中)，此处用主线程运行调度器
-    scheduler.run();
+    scheduler.shutdown();
+    worker.join();
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    std::cout << "Elapsed time: " << duration.count() << " milliseconds" << std::endl;
+    // OUT: 3555 milliseconds
+    //      3636 milliseconds
+    //      3680 milliseconds
+    
+    // One Thread Scheduler:
+    // OUT: 3529 milliseconds
+    //      3413 milliseconds
 
     return 0;
 }

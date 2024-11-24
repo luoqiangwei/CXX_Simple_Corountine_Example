@@ -56,25 +56,53 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		FCEF09052CF31B9400493A22 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2B00D0732A2B3398000BAE42 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		2B6FD8832A24E9FF00581498 /* Coroutine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Coroutine; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B6FD8832A24E9FF00581498 /* GuessCoroutine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = GuessCoroutine; path = "/Users/luoqiangwei/Documents/Learning/C++/Coroutine/build/Debug/GuessCoroutine"; sourceTree = "<absolute>"; };
 		2B6FD8862A24E9FF00581498 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2B6FD88D2A2581E600581498 /* OutPut.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = OutPut.md; sourceTree = "<group>"; };
-		FCAD5C932CEE3FB200557101 /* TwoCoroutineInMainThread */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TwoCoroutineInMainThread; sourceTree = BUILT_PRODUCTS_DIR; };
-		FCAD5C9E2CEE3FC800557101 /* TwoCoroutineInOneThread */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TwoCoroutineInOneThread; sourceTree = BUILT_PRODUCTS_DIR; };
-		FCAD5CA92CEE3FD500557101 /* TwoCoroutineInTwoThread */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TwoCoroutineInTwoThread; sourceTree = BUILT_PRODUCTS_DIR; };
-		FCAD5CB42CEE400100557101 /* CoroutineScheduler */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CoroutineScheduler; sourceTree = BUILT_PRODUCTS_DIR; };
+		FCAD5C932CEE3FB200557101 /* TwoGuessCoroutineInMainThread */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = TwoGuessCoroutineInMainThread; path = "/Users/luoqiangwei/Documents/Learning/C++/Coroutine/build/Debug/TwoGuessCoroutineInMainThread"; sourceTree = "<absolute>"; };
+		FCAD5C9E2CEE3FC800557101 /* TwoGuessCoroutineInOneThread */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = TwoGuessCoroutineInOneThread; path = "/Users/luoqiangwei/Documents/Learning/C++/Coroutine/build/Debug/TwoGuessCoroutineInOneThread"; sourceTree = "<absolute>"; };
+		FCAD5CA92CEE3FD500557101 /* TwoGuessCoroutineInTwoThread */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = TwoGuessCoroutineInTwoThread; path = "/Users/luoqiangwei/Documents/Learning/C++/Coroutine/build/Debug/TwoGuessCoroutineInTwoThread"; sourceTree = "<absolute>"; };
+		FCAD5CB42CEE400100557101 /* GuessCoroutineScheduler */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = GuessCoroutineScheduler; path = "/Users/luoqiangwei/Documents/Learning/C++/Coroutine/build/Debug/GuessCoroutineScheduler"; sourceTree = "<absolute>"; };
+		FCEF09072CF31B9400493A22 /* GuessCoroutineRunWithSelf */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = GuessCoroutineRunWithSelf; path = "/Users/luoqiangwei/Documents/Learning/C++/Coroutine/build/Debug/GuessCoroutineRunWithSelf"; sourceTree = "<absolute>"; };
 		FCF38BD82CF2CEEA00081A46 /* license */ = {isa = PBXFileReference; lastKnownFileType = text; path = license; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		FCEF09202CF3233D00493A22 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				main.cpp,
+			);
+			target = FCAD5CB32CEE400100557101 /* GuessCoroutineScheduler */;
+		};
+		FCEF09212CF3233D00493A22 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				main.cpp,
+			);
+			target = FCEF09062CF31B9400493A22 /* GuessCoroutineRunWithSelf */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		FCAD5C942CEE3FB200557101 /* TwoCoroutineInMainThread */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = TwoCoroutineInMainThread; sourceTree = "<group>"; };
 		FCAD5C9F2CEE3FC800557101 /* TwoCoroutineInOneThread */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = TwoCoroutineInOneThread; sourceTree = "<group>"; };
 		FCAD5CAA2CEE3FD500557101 /* TwoCoroutineInTwoThread */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = TwoCoroutineInTwoThread; sourceTree = "<group>"; };
-		FCAD5CB52CEE400100557101 /* CoroutineScheduler */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = CoroutineScheduler; sourceTree = "<group>"; };
+		FCEF09082CF31B9400493A22 /* GuessCoroutineRunWithSelf */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = GuessCoroutineRunWithSelf; sourceTree = "<group>"; };
+		FCEF091E2CF3233D00493A22 /* CoroutineScheduler */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (FCEF09202CF3233D00493A22 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, FCEF09212CF3233D00493A22 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = CoroutineScheduler; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +141,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FCEF09042CF31B9400493A22 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -120,43 +155,31 @@
 			isa = PBXGroup;
 			children = (
 				FCF38BD82CF2CEEA00081A46 /* license */,
-				2B6FD8852A24E9FF00581498 /* Coroutine */,
+				2B6FD8852A24E9FF00581498 /* GuessCoroutine */,
 				FCAD5C942CEE3FB200557101 /* TwoCoroutineInMainThread */,
 				FCAD5C9F2CEE3FC800557101 /* TwoCoroutineInOneThread */,
 				FCAD5CAA2CEE3FD500557101 /* TwoCoroutineInTwoThread */,
-				FCAD5CB52CEE400100557101 /* CoroutineScheduler */,
-				2B6FD8842A24E9FF00581498 /* Products */,
+				FCEF09082CF31B9400493A22 /* GuessCoroutineRunWithSelf */,
+				FCEF091E2CF3233D00493A22 /* CoroutineScheduler */,
 			);
 			sourceTree = "<group>";
 		};
-		2B6FD8842A24E9FF00581498 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				2B6FD8832A24E9FF00581498 /* Coroutine */,
-				FCAD5C932CEE3FB200557101 /* TwoCoroutineInMainThread */,
-				FCAD5C9E2CEE3FC800557101 /* TwoCoroutineInOneThread */,
-				FCAD5CA92CEE3FD500557101 /* TwoCoroutineInTwoThread */,
-				FCAD5CB42CEE400100557101 /* CoroutineScheduler */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		2B6FD8852A24E9FF00581498 /* Coroutine */ = {
+		2B6FD8852A24E9FF00581498 /* GuessCoroutine */ = {
 			isa = PBXGroup;
 			children = (
 				2B6FD8862A24E9FF00581498 /* main.cpp */,
 				2B6FD88D2A2581E600581498 /* OutPut.md */,
 				2B00D0732A2B3398000BAE42 /* README.md */,
 			);
-			path = Coroutine;
+			path = GuessCoroutine;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2B6FD8822A24E9FF00581498 /* Coroutine */ = {
+		2B6FD8822A24E9FF00581498 /* GuessCoroutine */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2B6FD88A2A24E9FF00581498 /* Build configuration list for PBXNativeTarget "Coroutine" */;
+			buildConfigurationList = 2B6FD88A2A24E9FF00581498 /* Build configuration list for PBXNativeTarget "GuessCoroutine" */;
 			buildPhases = (
 				2B6FD87F2A24E9FF00581498 /* Sources */,
 				2B6FD8802A24E9FF00581498 /* Frameworks */,
@@ -166,14 +189,14 @@
 			);
 			dependencies = (
 			);
-			name = Coroutine;
+			name = GuessCoroutine;
 			productName = Coroutine;
-			productReference = 2B6FD8832A24E9FF00581498 /* Coroutine */;
+			productReference = 2B6FD8832A24E9FF00581498 /* GuessCoroutine */;
 			productType = "com.apple.product-type.tool";
 		};
-		FCAD5C922CEE3FB200557101 /* TwoCoroutineInMainThread */ = {
+		FCAD5C922CEE3FB200557101 /* TwoGuessCoroutineInMainThread */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FCAD5C972CEE3FB200557101 /* Build configuration list for PBXNativeTarget "TwoCoroutineInMainThread" */;
+			buildConfigurationList = FCAD5C972CEE3FB200557101 /* Build configuration list for PBXNativeTarget "TwoGuessCoroutineInMainThread" */;
 			buildPhases = (
 				FCAD5C8F2CEE3FB200557101 /* Sources */,
 				FCAD5C902CEE3FB200557101 /* Frameworks */,
@@ -186,16 +209,16 @@
 			fileSystemSynchronizedGroups = (
 				FCAD5C942CEE3FB200557101 /* TwoCoroutineInMainThread */,
 			);
-			name = TwoCoroutineInMainThread;
+			name = TwoGuessCoroutineInMainThread;
 			packageProductDependencies = (
 			);
 			productName = TwoCoroutineInMainThread;
-			productReference = FCAD5C932CEE3FB200557101 /* TwoCoroutineInMainThread */;
+			productReference = FCAD5C932CEE3FB200557101 /* TwoGuessCoroutineInMainThread */;
 			productType = "com.apple.product-type.tool";
 		};
-		FCAD5C9D2CEE3FC800557101 /* TwoCoroutineInOneThread */ = {
+		FCAD5C9D2CEE3FC800557101 /* TwoGuessCoroutineInOneThread */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FCAD5CA22CEE3FC800557101 /* Build configuration list for PBXNativeTarget "TwoCoroutineInOneThread" */;
+			buildConfigurationList = FCAD5CA22CEE3FC800557101 /* Build configuration list for PBXNativeTarget "TwoGuessCoroutineInOneThread" */;
 			buildPhases = (
 				FCAD5C9A2CEE3FC800557101 /* Sources */,
 				FCAD5C9B2CEE3FC800557101 /* Frameworks */,
@@ -208,16 +231,16 @@
 			fileSystemSynchronizedGroups = (
 				FCAD5C9F2CEE3FC800557101 /* TwoCoroutineInOneThread */,
 			);
-			name = TwoCoroutineInOneThread;
+			name = TwoGuessCoroutineInOneThread;
 			packageProductDependencies = (
 			);
 			productName = TwoCoroutineInOneThread;
-			productReference = FCAD5C9E2CEE3FC800557101 /* TwoCoroutineInOneThread */;
+			productReference = FCAD5C9E2CEE3FC800557101 /* TwoGuessCoroutineInOneThread */;
 			productType = "com.apple.product-type.tool";
 		};
-		FCAD5CA82CEE3FD500557101 /* TwoCoroutineInTwoThread */ = {
+		FCAD5CA82CEE3FD500557101 /* TwoGuessCoroutineInTwoThread */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FCAD5CAD2CEE3FD500557101 /* Build configuration list for PBXNativeTarget "TwoCoroutineInTwoThread" */;
+			buildConfigurationList = FCAD5CAD2CEE3FD500557101 /* Build configuration list for PBXNativeTarget "TwoGuessCoroutineInTwoThread" */;
 			buildPhases = (
 				FCAD5CA52CEE3FD500557101 /* Sources */,
 				FCAD5CA62CEE3FD500557101 /* Frameworks */,
@@ -230,16 +253,16 @@
 			fileSystemSynchronizedGroups = (
 				FCAD5CAA2CEE3FD500557101 /* TwoCoroutineInTwoThread */,
 			);
-			name = TwoCoroutineInTwoThread;
+			name = TwoGuessCoroutineInTwoThread;
 			packageProductDependencies = (
 			);
 			productName = TwoCoroutineInTwoThread;
-			productReference = FCAD5CA92CEE3FD500557101 /* TwoCoroutineInTwoThread */;
+			productReference = FCAD5CA92CEE3FD500557101 /* TwoGuessCoroutineInTwoThread */;
 			productType = "com.apple.product-type.tool";
 		};
-		FCAD5CB32CEE400100557101 /* CoroutineScheduler */ = {
+		FCAD5CB32CEE400100557101 /* GuessCoroutineScheduler */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FCAD5CB82CEE400100557101 /* Build configuration list for PBXNativeTarget "CoroutineScheduler" */;
+			buildConfigurationList = FCAD5CB82CEE400100557101 /* Build configuration list for PBXNativeTarget "GuessCoroutineScheduler" */;
 			buildPhases = (
 				FCAD5CB02CEE400100557101 /* Sources */,
 				FCAD5CB12CEE400100557101 /* Frameworks */,
@@ -249,14 +272,34 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				FCAD5CB52CEE400100557101 /* CoroutineScheduler */,
-			);
-			name = CoroutineScheduler;
+			name = GuessCoroutineScheduler;
 			packageProductDependencies = (
 			);
 			productName = CoroutineScheduler;
-			productReference = FCAD5CB42CEE400100557101 /* CoroutineScheduler */;
+			productReference = FCAD5CB42CEE400100557101 /* GuessCoroutineScheduler */;
+			productType = "com.apple.product-type.tool";
+		};
+		FCEF09062CF31B9400493A22 /* GuessCoroutineRunWithSelf */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FCEF090D2CF31B9400493A22 /* Build configuration list for PBXNativeTarget "GuessCoroutineRunWithSelf" */;
+			buildPhases = (
+				FCEF09032CF31B9400493A22 /* Sources */,
+				FCEF09042CF31B9400493A22 /* Frameworks */,
+				FCEF09052CF31B9400493A22 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				FCEF09082CF31B9400493A22 /* GuessCoroutineRunWithSelf */,
+				FCEF091E2CF3233D00493A22 /* CoroutineScheduler */,
+			);
+			name = GuessCoroutineRunWithSelf;
+			packageProductDependencies = (
+			);
+			productName = GuessCoroutineRunWithSelf;
+			productReference = FCEF09072CF31B9400493A22 /* GuessCoroutineRunWithSelf */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -284,6 +327,9 @@
 					FCAD5CB32CEE400100557101 = {
 						CreatedOnToolsVersion = 16.1;
 					};
+					FCEF09062CF31B9400493A22 = {
+						CreatedOnToolsVersion = 16.1;
+					};
 				};
 			};
 			buildConfigurationList = 2B6FD87E2A24E9FF00581498 /* Build configuration list for PBXProject "Coroutine" */;
@@ -295,15 +341,16 @@
 				Base,
 			);
 			mainGroup = 2B6FD87A2A24E9FF00581498;
-			productRefGroup = 2B6FD8842A24E9FF00581498 /* Products */;
+			productRefGroup = 2B6FD87A2A24E9FF00581498;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2B6FD8822A24E9FF00581498 /* Coroutine */,
-				FCAD5C922CEE3FB200557101 /* TwoCoroutineInMainThread */,
-				FCAD5C9D2CEE3FC800557101 /* TwoCoroutineInOneThread */,
-				FCAD5CA82CEE3FD500557101 /* TwoCoroutineInTwoThread */,
-				FCAD5CB32CEE400100557101 /* CoroutineScheduler */,
+				2B6FD8822A24E9FF00581498 /* GuessCoroutine */,
+				FCAD5C922CEE3FB200557101 /* TwoGuessCoroutineInMainThread */,
+				FCAD5C9D2CEE3FC800557101 /* TwoGuessCoroutineInOneThread */,
+				FCAD5CA82CEE3FD500557101 /* TwoGuessCoroutineInTwoThread */,
+				FCAD5CB32CEE400100557101 /* GuessCoroutineScheduler */,
+				FCEF09062CF31B9400493A22 /* GuessCoroutineRunWithSelf */,
 			);
 		};
 /* End PBXProject section */
@@ -339,6 +386,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		FCAD5CB02CEE400100557101 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FCEF09032CF31B9400493A22 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -593,6 +647,36 @@
 			};
 			name = Release;
 		};
+		FCEF090B2CF31B9400493A22 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WYCK5N8284;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		FCEF090C2CF31B9400493A22 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WYCK5N8284;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -605,7 +689,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2B6FD88A2A24E9FF00581498 /* Build configuration list for PBXNativeTarget "Coroutine" */ = {
+		2B6FD88A2A24E9FF00581498 /* Build configuration list for PBXNativeTarget "GuessCoroutine" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2B6FD88B2A24E9FF00581498 /* Debug */,
@@ -614,7 +698,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FCAD5C972CEE3FB200557101 /* Build configuration list for PBXNativeTarget "TwoCoroutineInMainThread" */ = {
+		FCAD5C972CEE3FB200557101 /* Build configuration list for PBXNativeTarget "TwoGuessCoroutineInMainThread" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FCAD5C982CEE3FB200557101 /* Debug */,
@@ -623,7 +707,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FCAD5CA22CEE3FC800557101 /* Build configuration list for PBXNativeTarget "TwoCoroutineInOneThread" */ = {
+		FCAD5CA22CEE3FC800557101 /* Build configuration list for PBXNativeTarget "TwoGuessCoroutineInOneThread" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FCAD5CA32CEE3FC800557101 /* Debug */,
@@ -632,7 +716,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FCAD5CAD2CEE3FD500557101 /* Build configuration list for PBXNativeTarget "TwoCoroutineInTwoThread" */ = {
+		FCAD5CAD2CEE3FD500557101 /* Build configuration list for PBXNativeTarget "TwoGuessCoroutineInTwoThread" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FCAD5CAE2CEE3FD500557101 /* Debug */,
@@ -641,11 +725,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FCAD5CB82CEE400100557101 /* Build configuration list for PBXNativeTarget "CoroutineScheduler" */ = {
+		FCAD5CB82CEE400100557101 /* Build configuration list for PBXNativeTarget "GuessCoroutineScheduler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FCAD5CB92CEE400100557101 /* Debug */,
 				FCAD5CBA2CEE400100557101 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FCEF090D2CF31B9400493A22 /* Build configuration list for PBXNativeTarget "GuessCoroutineRunWithSelf" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FCEF090B2CF31B9400493A22 /* Debug */,
+				FCEF090C2CF31B9400493A22 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

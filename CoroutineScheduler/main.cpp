@@ -7,72 +7,145 @@
 
 #include <iostream>
 #include <coroutine>
+#include <future>
 #include <queue>
-#include <memory>
+#include <thread>
+#include <vector>
 #include <functional>
+#include <mutex>
+#include <condition_variable>
 
-class CoroutineScheduler {
+// 简单的线程池
+class ThreadPool {
 public:
-    // 添加协程到调度器
-    void schedule(std::coroutine_handle<> handle) {
-        queue.push(handle);
+    ThreadPool(size_t numThreads) {
+        for (size_t i = 0; i < numThreads; ++i) {
+            workers.emplace_back([this] {
+                while (true) {
+                    std::function<void()> task;
+                    {
+                        std::unique_lock<std::mutex> lock(mtx);
+                        cv.wait(lock, [this] { return !tasks.empty() || stop; });
+                        if (stop && tasks.empty()) return;
+                        task = std::move(tasks.front());
+                        tasks.pop();
+                    }
+                    task();
+                }
+            });
+        }
     }
 
-    // 运行调度器
+    ~ThreadPool() {
+        {
+            std::unique_lock<std::mutex> lock(mtx);
+            stop = true;
+        }
+        cv.notify_all();
+        for (std::thread& worker : workers) {
+            if (worker.joinable()) worker.join();
+        }
+    }
+
+    template <typename F>
+    auto enqueue(F&& func) -> std::future<std::invoke_result_t<F>> {
+        using ReturnType = std::invoke_result_t<F>;
+        auto task = std::make_shared<std::packaged_task<ReturnType()>>(std::forward<F>(func));
+        std::future<ReturnType> res = task->get_future();
+        {
+            std::unique_lock<std::mutex> lock(mtx);
+            tasks.emplace([task]() { (*task)(); });
+        }
+        cv.notify_one();
+        return res;
+    }
+
+private:
+    std::vector<std::thread> workers;
+    std::queue<std::function<void()>> tasks;
+    std::mutex mtx;
+    std::condition_variable cv;
+    bool stop = false;
+};
+
+// Awaitable 任务，结合线程池使用
+template <typename T>
+struct ThreadPoolTask {
+    std::future<T> future;
+
+    bool await_ready() { return future.wait_for(std::chrono::seconds(0)) == std::future_status::ready; }
+
+    void await_suspend(std::coroutine_handle<> handle) {
+        std::thread([handle, this] {
+            future.wait();
+            handle.resume();
+        }).detach();
+    }
+
+    T await_resume() { return future.get(); }
+};
+
+// 调度器
+class Scheduler {
+public:
+    void addTask(std::function<void()> task) {
+        std::unique_lock<std::mutex> lock(mtx);
+        tasks.push(std::move(task));
+        cv.notify_one();
+    }
+
     void run() {
-        while (!queue.empty()) {
-            auto handle = queue.front();
-            queue.pop();
-            handle.resume(); // 恢复协程
-            if (handle.done()) {
-                handle.destroy(); // 清理完成的协程
-            } else {
-                schedule(handle); // 如果协程未完成，重新调度
+        while (true) {
+            std::function<void()> task;
+            {
+                std::unique_lock<std::mutex> lock(mtx);
+                cv.wait(lock, [this] { return !tasks.empty(); });
+                task = std::move(tasks.front());
+                tasks.pop();
             }
+            task();
         }
     }
 
 private:
-    std::queue<std::coroutine_handle<>> queue; // 协程队列
+    std::queue<std::function<void()>> tasks;
+    std::mutex mtx;
+    std::condition_variable cv;
 };
 
-// 协程的返回类型
-struct Coroutine {
+// 示例协程任务
+struct ExampleTask {
     struct promise_type {
-        Coroutine get_return_object() {
-            return Coroutine{std::coroutine_handle<promise_type>::from_promise(*this)};
-        }
-        std::suspend_always initial_suspend() { return {}; }
-        std::suspend_always final_suspend() noexcept { return {}; }
+        ExampleTask get_return_object() { return {}; }
+        std::suspend_never initial_suspend() { return {}; }
+        std::suspend_never final_suspend() noexcept { return {}; }
         void return_void() {}
-        void unhandled_exception() {}
+        void unhandled_exception() { std::terminate(); }
     };
 
-    std::coroutine_handle<promise_type> handle;
-
-    Coroutine(std::coroutine_handle<promise_type> h) : handle(h) {}
-    ~Coroutine() { if (handle) handle.destroy(); }
+    ExampleTask() = default;
 };
 
-// 示例协程
-Coroutine exampleCoroutine(int id) {
-    std::cout << "Coroutine " << id << " started." << std::endl;
-    co_await std::suspend_always{}; // 挂起协程
-    std::cout << "Coroutine " << id << " resumed." << std::endl;
-    co_await std::suspend_always{}; // 再次挂起
-    std::cout << "Coroutine " << id << " finished." << std::endl;
+ExampleTask asyncTask(Scheduler& scheduler, ThreadPool& threadPool) {
+    std::cout << "Task started\n";
+
+    int result = co_await ThreadPoolTask<int>{threadPool.enqueue([] {
+        std::this_thread::sleep_for(std::chrono::seconds(2));
+        return 42;
+    })};
+
+    scheduler.addTask([result] {
+        std::cout << "Task completed with result: " << result << "\n";
+    });
 }
 
 int main() {
-    CoroutineScheduler scheduler;
+    Scheduler scheduler;
+    ThreadPool threadPool(4);
 
-    // 创建并调度多个协程
-    for (int i = 1; i <= 3; ++i) {
-        scheduler.schedule(exampleCoroutine(i).handle);
-    }
+    // 添加任务到调度器
+    scheduler.addTask([&scheduler, &threadPool] { asyncTask(scheduler, threadPool); });
 
     // 运行调度器
     scheduler.run();
-
-    return 0;
 }

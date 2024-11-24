@@ -13,9 +13,6 @@
 #include <coroutine>
 #include <mutex>
 #include <queue>
-#include <aio.h>
-#include <fcntl.h>
-#include <unistd.h>
 
 namespace fs = std::filesystem;
 
@@ -88,114 +85,16 @@ public:
 
 Scheduler scheduler;
 
-// 异步读取和写入文件的辅助函数
-ssize_t aio_read_file(int fd, void* buf, size_t count, off_t offset, struct aiocb* cb) {
-    cb->aio_fildes = fd;
-    cb->aio_buf = buf;
-    cb->aio_nbytes = count;
-    cb->aio_offset = offset;
-    if (aio_read(cb) == -1) {
-        // aio queue full
-        if (errno != EAGAIN) {
-            std::cerr << "aio_read failed: " << strerror(errno)  << std::endl;
-        }
-        return -1;
-    }
-    return 0;
-}
-
-ssize_t aio_write_file(int fd, void* buf, size_t count, off_t offset, struct aiocb* cb) {
-    cb->aio_fildes = fd;
-    cb->aio_buf = buf;
-    cb->aio_nbytes = count;
-    cb->aio_offset = offset;
-    if (aio_write(cb) == -1) {
-        // aio queue full
-        if (errno != EAGAIN) {
-            std::cerr << "aio_write failed: " << strerror(errno)  << std::endl;
-        }
-        return -1;
-    }
-    return 0;
-}
-
 Task copy_file1(const fs::path src, const fs::path dst) {
-    int in_fd = open(src.c_str(), O_RDONLY);
-    int out_fd = open(dst.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (in_fd == -1 || out_fd == -1) {
-        std::cerr << "Failed to open files" << std::endl;
-        co_return;
-    }
-
+    std::ifstream in(src, std::ios::binary);
+    std::ofstream out(dst, std::ios::binary);
     std::vector<char> buffer(4096);
-    struct aiocb read_cb = {};
-    struct aiocb write_cb = {};
-
-    off_t offset = 0;
-    while (true) {
-        // 异步读取
-        while (aio_read_file(in_fd, buffer.data(), buffer.size(), offset, &read_cb) == -1) {
-            if (errno == EAGAIN) {
-                // I/O 队列已满
-                co_await std::suspend_always{}; // 挂起协程，返回调度下一个协程
-            } else {
-                close(in_fd);
-                close(out_fd);
-                co_return;
-            }
-        }
-
-        // 等待异步读取完成
-        while (aio_error(&read_cb) == EINPROGRESS) {
-            co_await std::suspend_always{}; // 挂起协程，等待 I/O 操作完成
-        }
-
-        // 检查读操作是否完成
-        if (aio_error(&read_cb) != 0) {
-            std::cerr << "Read error" << std::endl;
-            close(in_fd);
-            close(out_fd);
-            co_return;
-        }
-
-        ssize_t bytes_read = aio_return(&read_cb);
-        if (bytes_read == 0) {
-            break;  // EOF, no more data to read
-        }
-
-        // 异步写入
-        while (aio_write_file(out_fd, buffer.data(), bytes_read, offset, &write_cb) == -1) {
-            if (errno == EAGAIN) {
-                // I/O 队列已满
-                co_await std::suspend_always{}; // 挂起协程，返回调度下一个协程
-            } else {
-                close(in_fd);
-                close(out_fd);
-                co_return;
-            }
-        }
-
-        // 等待异步写入完成
-        while (aio_error(&write_cb) == EINPROGRESS) {
-            co_await std::suspend_always{}; // 挂起协程，等待 I/O 操作完成
-        }
-
-        // 检查写操作是否完成
-        if (aio_error(&write_cb) != 0) {
-            std::cerr << "Write error" << std::endl;
-            close(in_fd);
-            close(out_fd);
-            co_return;
-        }
-
-        ssize_t bytes_written = aio_return(&write_cb);
-        offset += bytes_written;
+    while (in.read(buffer.data(), buffer.size()) || in.gcount() > 0) {
+        co_await std::suspend_always{}; // 模拟异步操作
+        out.write(buffer.data(), in.gcount());
     }
-
-    // 关闭文件
-    close(in_fd);
-    close(out_fd);
-
+    out.close();
+    in.close();
     std::cout << "Copied: " << src << " -> " << dst << std::endl;
     co_return;
 }

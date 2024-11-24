@@ -133,6 +133,9 @@ int main() {
     // 运行协程调度器的线程
     std::thread worker([]() { scheduler.run(); });
     CopyDirectory(src_dir, dst_dir);
+    // 假如这里主线程是一个响应敏感的线程（例如UI线程），那么完全不用join，在协程执行过程中继续做自己的任务
+    // （比如绘制界面）就可以了，定期检查一下自己需要协程完成的工作是否完成，就可以继续做原来的事情了。
+    // 具体可以参照GuessCoroutineRunWithSelf，完全可以把这个Game扔到协程调度器，主线程干自己的事
     scheduler.shutdown();
     worker.join();
     auto end = std::chrono::high_resolution_clock::now();

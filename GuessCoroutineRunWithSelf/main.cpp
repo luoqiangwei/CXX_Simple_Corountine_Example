@@ -18,7 +18,7 @@ struct CoRet {
         int _res;
         std::exception_ptr exception_;
         
-        suspend_never initial_suspend() { return {}; }
+        suspend_always initial_suspend() { return {}; }
         suspend_always final_suspend() noexcept { return {}; }
         void unhandled_exception() {
             exception_ = std::current_exception();
@@ -64,8 +64,9 @@ struct CoRet {
 
 
 // Guess是一个协程实现
-CoRet Guess(CoRet::Note& note) {
+CoRet Guess() {
     int res = (rand() % 30) + 1;
+    CoRet::Note note = {};
     CoRet::Input input{ note };
     cout << "coroutine: Init Finish" << endl;
     while (true) {
@@ -86,14 +87,15 @@ CoRet Guess(CoRet::Note& note) {
 
 int main(int argc, const char * argv[]) {
     srand((uint)time(nullptr));
-    CoRet::Note note = {};
-    auto ret = Guess(note);
+    auto coroutine = Guess();
     cout << "main: make a guess ..." << endl;
+    // Start coroutine...
+    coroutine._h.resume();
     int count = 0;
     while (true) {
-        if (ret._h.done()) {
-            cout << "main: the coroutine result is " << ret._h.promise()._res << endl;
-            ret._h.destroy();
+        if (coroutine._h.done()) {
+            cout << "main: the coroutine result is " << coroutine._h.promise()._res << endl;
+            coroutine._h.destroy();
             break;
         }
         count += 5;

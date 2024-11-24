@@ -67,6 +67,7 @@
 		FCAD5C9E2CEE3FC800557101 /* TwoCoroutineInOneThread */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TwoCoroutineInOneThread; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCAD5CA92CEE3FD500557101 /* TwoCoroutineInTwoThread */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TwoCoroutineInTwoThread; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCAD5CB42CEE400100557101 /* CoroutineScheduler */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CoroutineScheduler; sourceTree = BUILT_PRODUCTS_DIR; };
+		FCF38BD82CF2CEEA00081A46 /* license */ = {isa = PBXFileReference; lastKnownFileType = text; path = license; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -118,6 +119,7 @@
 		2B6FD87A2A24E9FF00581498 = {
 			isa = PBXGroup;
 			children = (
+				FCF38BD82CF2CEEA00081A46 /* license */,
 				2B6FD8852A24E9FF00581498 /* Coroutine */,
 				FCAD5C942CEE3FB200557101 /* TwoCoroutineInMainThread */,
 				FCAD5C9F2CEE3FC800557101 /* TwoCoroutineInOneThread */,

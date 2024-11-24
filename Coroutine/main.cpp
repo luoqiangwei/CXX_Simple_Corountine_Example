@@ -3,6 +3,7 @@
 //  Coroutine
 //
 //  Created by Qiangwei Luo on 2023/5/29.
+//  The demo first source: BILIBILI - happyyang的百草园 （uid: 312883756）
 //
 
 #include <iostream>
@@ -143,7 +144,7 @@ int main(int argc, const char * argv[]) {
         if (ret._h.promise()._out == 0) break;
     }
     
-//    ret._h.resume(); // resume from co_yield
+    //    ret._h.resume(); // resume from co_yield
     if (ret._h.done()) {
         cout << "main: the result is " << ret._h.promise()._res << endl;
         ret._h.destroy();

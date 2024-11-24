@@ -10,6 +10,7 @@
 
 using namespace std;
 
+// 这个接口是协程自身的上下文和逻辑控制，存储一些状态信息（类似于线程的上下文信息，但是线程的对开发者透明）
 // Promise接口，指定一系列方法控制协程自身行为。
 //      - 协程被调用时的行为
 //      - 协程返回时的行为（包含异常时返回的行为）
@@ -42,7 +43,7 @@ struct CoRet {
             exception_ = std::current_exception();
         }
 
-        // 创建协程时，返回Promise接口
+        // 创建协程时，返回Promise接口实例，给这个外部结构体对应的成员
         CoRet get_return_object() {
             return  {
                 coroutine_handle<promise_type>::from_promise(*this)

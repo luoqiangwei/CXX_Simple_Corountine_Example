@@ -20,15 +20,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
-		FC6C1F512C9C7DD000747E42 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 		FCAD5C912CEE3FB200557101 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -72,7 +63,6 @@
 		2B6FD8832A24E9FF00581498 /* Coroutine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Coroutine; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B6FD8862A24E9FF00581498 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2B6FD88D2A2581E600581498 /* OutPut.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = OutPut.md; sourceTree = "<group>"; };
-		FC6C1F532C9C7DD000747E42 /* NetCoroutine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NetCoroutine; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCAD5C932CEE3FB200557101 /* TwoCoroutineInMainThread */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TwoCoroutineInMainThread; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCAD5C9E2CEE3FC800557101 /* TwoCoroutineInOneThread */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TwoCoroutineInOneThread; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCAD5CA92CEE3FD500557101 /* TwoCoroutineInTwoThread */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TwoCoroutineInTwoThread; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,7 +70,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		FC6C1F542C9C7DD000747E42 /* NetCoroutine */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = NetCoroutine; sourceTree = "<group>"; };
 		FCAD5C942CEE3FB200557101 /* TwoCoroutineInMainThread */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = TwoCoroutineInMainThread; sourceTree = "<group>"; };
 		FCAD5C9F2CEE3FC800557101 /* TwoCoroutineInOneThread */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = TwoCoroutineInOneThread; sourceTree = "<group>"; };
 		FCAD5CAA2CEE3FD500557101 /* TwoCoroutineInTwoThread */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = TwoCoroutineInTwoThread; sourceTree = "<group>"; };
@@ -89,13 +78,6 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		2B6FD8802A24E9FF00581498 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FC6C1F502C9C7DD000747E42 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -137,7 +119,6 @@
 			isa = PBXGroup;
 			children = (
 				2B6FD8852A24E9FF00581498 /* Coroutine */,
-				FC6C1F542C9C7DD000747E42 /* NetCoroutine */,
 				FCAD5C942CEE3FB200557101 /* TwoCoroutineInMainThread */,
 				FCAD5C9F2CEE3FC800557101 /* TwoCoroutineInOneThread */,
 				FCAD5CAA2CEE3FD500557101 /* TwoCoroutineInTwoThread */,
@@ -150,7 +131,6 @@
 			isa = PBXGroup;
 			children = (
 				2B6FD8832A24E9FF00581498 /* Coroutine */,
-				FC6C1F532C9C7DD000747E42 /* NetCoroutine */,
 				FCAD5C932CEE3FB200557101 /* TwoCoroutineInMainThread */,
 				FCAD5C9E2CEE3FC800557101 /* TwoCoroutineInOneThread */,
 				FCAD5CA92CEE3FD500557101 /* TwoCoroutineInTwoThread */,
@@ -187,28 +167,6 @@
 			name = Coroutine;
 			productName = Coroutine;
 			productReference = 2B6FD8832A24E9FF00581498 /* Coroutine */;
-			productType = "com.apple.product-type.tool";
-		};
-		FC6C1F522C9C7DD000747E42 /* NetCoroutine */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FC6C1F592C9C7DD000747E42 /* Build configuration list for PBXNativeTarget "NetCoroutine" */;
-			buildPhases = (
-				FC6C1F4F2C9C7DD000747E42 /* Sources */,
-				FC6C1F502C9C7DD000747E42 /* Frameworks */,
-				FC6C1F512C9C7DD000747E42 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				FC6C1F542C9C7DD000747E42 /* NetCoroutine */,
-			);
-			name = NetCoroutine;
-			packageProductDependencies = (
-			);
-			productName = NetCoroutine;
-			productReference = FC6C1F532C9C7DD000747E42 /* NetCoroutine */;
 			productType = "com.apple.product-type.tool";
 		};
 		FCAD5C922CEE3FB200557101 /* TwoCoroutineInMainThread */ = {
@@ -312,9 +270,6 @@
 					2B6FD8822A24E9FF00581498 = {
 						CreatedOnToolsVersion = 14.3;
 					};
-					FC6C1F522C9C7DD000747E42 = {
-						CreatedOnToolsVersion = 16.0;
-					};
 					FCAD5C922CEE3FB200557101 = {
 						CreatedOnToolsVersion = 16.1;
 					};
@@ -343,7 +298,6 @@
 			projectRoot = "";
 			targets = (
 				2B6FD8822A24E9FF00581498 /* Coroutine */,
-				FC6C1F522C9C7DD000747E42 /* NetCoroutine */,
 				FCAD5C922CEE3FB200557101 /* TwoCoroutineInMainThread */,
 				FCAD5C9D2CEE3FC800557101 /* TwoCoroutineInOneThread */,
 				FCAD5CA82CEE3FD500557101 /* TwoCoroutineInTwoThread */,
@@ -358,13 +312,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B6FD8872A24E9FF00581498 /* main.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FC6C1F4F2C9C7DD000747E42 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,32 +471,6 @@
 			};
 			name = Release;
 		};
-		FC6C1F572C9C7DD000747E42 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CODE_SIGN_STYLE = Automatic;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		FC6C1F582C9C7DD000747E42 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CODE_SIGN_STYLE = Automatic;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		FCAD5C982CEE3FB200557101 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -687,15 +608,6 @@
 			buildConfigurations = (
 				2B6FD88B2A24E9FF00581498 /* Debug */,
 				2B6FD88C2A24E9FF00581498 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		FC6C1F592C9C7DD000747E42 /* Build configuration list for PBXNativeTarget "NetCoroutine" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FC6C1F572C9C7DD000747E42 /* Debug */,
-				FC6C1F582C9C7DD000747E42 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

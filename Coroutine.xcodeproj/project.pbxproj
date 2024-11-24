@@ -69,14 +69,14 @@
 
 /* Begin PBXFileReference section */
 		2B00D0732A2B3398000BAE42 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		2B6FD8832A24E9FF00581498 /* GuessCoroutine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = GuessCoroutine; path = "/Users/luoqiangwei/Documents/Learning/C++/Coroutine/build/Debug/GuessCoroutine"; sourceTree = "<absolute>"; };
 		2B6FD8862A24E9FF00581498 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2B6FD88D2A2581E600581498 /* OutPut.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = OutPut.md; sourceTree = "<group>"; };
-		FCAD5C932CEE3FB200557101 /* TwoGuessCoroutineInMainThread */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = TwoGuessCoroutineInMainThread; path = "/Users/luoqiangwei/Documents/Learning/C++/Coroutine/build/Debug/TwoGuessCoroutineInMainThread"; sourceTree = "<absolute>"; };
-		FCAD5C9E2CEE3FC800557101 /* TwoGuessCoroutineInOneThread */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = TwoGuessCoroutineInOneThread; path = "/Users/luoqiangwei/Documents/Learning/C++/Coroutine/build/Debug/TwoGuessCoroutineInOneThread"; sourceTree = "<absolute>"; };
-		FCAD5CA92CEE3FD500557101 /* TwoGuessCoroutineInTwoThread */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = TwoGuessCoroutineInTwoThread; path = "/Users/luoqiangwei/Documents/Learning/C++/Coroutine/build/Debug/TwoGuessCoroutineInTwoThread"; sourceTree = "<absolute>"; };
-		FCAD5CB42CEE400100557101 /* GuessCoroutineScheduler */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = GuessCoroutineScheduler; path = "/Users/luoqiangwei/Documents/Learning/C++/Coroutine/build/Debug/GuessCoroutineScheduler"; sourceTree = "<absolute>"; };
-		FCEF09072CF31B9400493A22 /* GuessCoroutineRunWithSelf */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = GuessCoroutineRunWithSelf; path = "/Users/luoqiangwei/Documents/Learning/C++/Coroutine/build/Debug/GuessCoroutineRunWithSelf"; sourceTree = "<absolute>"; };
+		FCEF09232CF32D6A00493A22 /* CoroutineScheduler */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = CoroutineScheduler; path = "/Users/luoqiangwei/Documents/Learning/C++/Coroutine/build/Debug/CoroutineScheduler"; sourceTree = "<absolute>"; };
+		FCEF09242CF32D6A00493A22 /* GuessCoroutineRunWithSelf */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = GuessCoroutineRunWithSelf; path = "/Users/luoqiangwei/Documents/Learning/C++/Coroutine/build/Debug/GuessCoroutineRunWithSelf"; sourceTree = "<absolute>"; };
+		FCEF09252CF32D6A00493A22 /* GuessCoroutine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = GuessCoroutine; path = "/Users/luoqiangwei/Documents/Learning/C++/Coroutine/build/Debug/GuessCoroutine"; sourceTree = "<absolute>"; };
+		FCEF09262CF32D6A00493A22 /* TwoGuessCoroutineInMainThread */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = TwoGuessCoroutineInMainThread; path = "/Users/luoqiangwei/Documents/Learning/C++/Coroutine/build/Debug/TwoGuessCoroutineInMainThread"; sourceTree = "<absolute>"; };
+		FCEF09272CF32D6A00493A22 /* TwoGuessCoroutineInOneThread */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = TwoGuessCoroutineInOneThread; path = "/Users/luoqiangwei/Documents/Learning/C++/Coroutine/build/Debug/TwoGuessCoroutineInOneThread"; sourceTree = "<absolute>"; };
+		FCEF09282CF32D6A00493A22 /* TwoGuessCoroutineInTwoThread */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = TwoGuessCoroutineInTwoThread; path = "/Users/luoqiangwei/Documents/Learning/C++/Coroutine/build/Debug/TwoGuessCoroutineInTwoThread"; sourceTree = "<absolute>"; };
 		FCF38BD82CF2CEEA00081A46 /* license */ = {isa = PBXFileReference; lastKnownFileType = text; path = license; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,7 +86,7 @@
 			membershipExceptions = (
 				main.cpp,
 			);
-			target = FCAD5CB32CEE400100557101 /* GuessCoroutineScheduler */;
+			target = FCAD5CB32CEE400100557101 /* CoroutineScheduler */;
 		};
 		FCEF09212CF3233D00493A22 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -191,7 +191,7 @@
 			);
 			name = GuessCoroutine;
 			productName = Coroutine;
-			productReference = 2B6FD8832A24E9FF00581498 /* GuessCoroutine */;
+			productReference = FCEF09252CF32D6A00493A22 /* GuessCoroutine */;
 			productType = "com.apple.product-type.tool";
 		};
 		FCAD5C922CEE3FB200557101 /* TwoGuessCoroutineInMainThread */ = {
@@ -213,7 +213,7 @@
 			packageProductDependencies = (
 			);
 			productName = TwoCoroutineInMainThread;
-			productReference = FCAD5C932CEE3FB200557101 /* TwoGuessCoroutineInMainThread */;
+			productReference = FCEF09262CF32D6A00493A22 /* TwoGuessCoroutineInMainThread */;
 			productType = "com.apple.product-type.tool";
 		};
 		FCAD5C9D2CEE3FC800557101 /* TwoGuessCoroutineInOneThread */ = {
@@ -235,7 +235,7 @@
 			packageProductDependencies = (
 			);
 			productName = TwoCoroutineInOneThread;
-			productReference = FCAD5C9E2CEE3FC800557101 /* TwoGuessCoroutineInOneThread */;
+			productReference = FCEF09272CF32D6A00493A22 /* TwoGuessCoroutineInOneThread */;
 			productType = "com.apple.product-type.tool";
 		};
 		FCAD5CA82CEE3FD500557101 /* TwoGuessCoroutineInTwoThread */ = {
@@ -257,12 +257,12 @@
 			packageProductDependencies = (
 			);
 			productName = TwoCoroutineInTwoThread;
-			productReference = FCAD5CA92CEE3FD500557101 /* TwoGuessCoroutineInTwoThread */;
+			productReference = FCEF09282CF32D6A00493A22 /* TwoGuessCoroutineInTwoThread */;
 			productType = "com.apple.product-type.tool";
 		};
-		FCAD5CB32CEE400100557101 /* GuessCoroutineScheduler */ = {
+		FCAD5CB32CEE400100557101 /* CoroutineScheduler */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FCAD5CB82CEE400100557101 /* Build configuration list for PBXNativeTarget "GuessCoroutineScheduler" */;
+			buildConfigurationList = FCAD5CB82CEE400100557101 /* Build configuration list for PBXNativeTarget "CoroutineScheduler" */;
 			buildPhases = (
 				FCAD5CB02CEE400100557101 /* Sources */,
 				FCAD5CB12CEE400100557101 /* Frameworks */,
@@ -272,11 +272,11 @@
 			);
 			dependencies = (
 			);
-			name = GuessCoroutineScheduler;
+			name = CoroutineScheduler;
 			packageProductDependencies = (
 			);
 			productName = CoroutineScheduler;
-			productReference = FCAD5CB42CEE400100557101 /* GuessCoroutineScheduler */;
+			productReference = FCEF09232CF32D6A00493A22 /* CoroutineScheduler */;
 			productType = "com.apple.product-type.tool";
 		};
 		FCEF09062CF31B9400493A22 /* GuessCoroutineRunWithSelf */ = {
@@ -299,7 +299,7 @@
 			packageProductDependencies = (
 			);
 			productName = GuessCoroutineRunWithSelf;
-			productReference = FCEF09072CF31B9400493A22 /* GuessCoroutineRunWithSelf */;
+			productReference = FCEF09242CF32D6A00493A22 /* GuessCoroutineRunWithSelf */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -349,7 +349,7 @@
 				FCAD5C922CEE3FB200557101 /* TwoGuessCoroutineInMainThread */,
 				FCAD5C9D2CEE3FC800557101 /* TwoGuessCoroutineInOneThread */,
 				FCAD5CA82CEE3FD500557101 /* TwoGuessCoroutineInTwoThread */,
-				FCAD5CB32CEE400100557101 /* GuessCoroutineScheduler */,
+				FCAD5CB32CEE400100557101 /* CoroutineScheduler */,
 				FCEF09062CF31B9400493A22 /* GuessCoroutineRunWithSelf */,
 			);
 		};
@@ -725,7 +725,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FCAD5CB82CEE400100557101 /* Build configuration list for PBXNativeTarget "GuessCoroutineScheduler" */ = {
+		FCAD5CB82CEE400100557101 /* Build configuration list for PBXNativeTarget "CoroutineScheduler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FCAD5CB92CEE400100557101 /* Debug */,

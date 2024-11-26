@@ -4,7 +4,7 @@ project(IOUring_Coroutine LANGUAGES CXX)
 
 # 添加宏定义
 # add_definitions(-D__IOURING__)
-add_definitions(-D__AIO__)
+# add_definitions(-D__AIO__)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

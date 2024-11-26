@@ -23,8 +23,9 @@
 /*
  * Very basic proof-of-concept for doing a copy with linked SQEs. Needs a
  * bit of error handling and short read love.
- * First Ref: https://medium.com/oracledevs/an-introduction-to-the-io-uring-asynchronous-i-o-framework-fad002d7dfc1
- * IO-Uring Ref: http://arthurchiao.art/blog/intro-to-io-uring-zh/
+ * IO-Uring First Ref: https://github.com/axboe/liburing/blob/master/examples/link-cp.c
+ * IO-Uring Ref: https://medium.com/oracledevs/an-introduction-to-the-io-uring-asynchronous-i-o-framework-fad002d7dfc1
+ *               http://arthurchiao.art/blog/intro-to-io-uring-zh/
  */
 #include <stdio.h>
 #include <fcntl.h>
@@ -209,9 +210,6 @@ struct io_data {
     // TODO: 添加原始和目标文件FD，使用全局IOUring Queue
 };
 
-// IOUring当前队列进行系统调用的数量
-static unsigned inflight;
-
 // 创建一个 read->write SQE chain
 static void queue_rw_pair(struct io_uring *ring, off_t size, off_t offset,
                           int infd, int outfd) {
@@ -226,9 +224,15 @@ static void queue_rw_pair(struct io_uring *ring, off_t size, off_t offset,
     data->iov.iov_base = ptr;
     data->iov.iov_len = size;
 
+    // IO Uring Link                        LINK1                                LINK2
+    //                                        |                                    |
+    //                                        v                                    v
+    //                                  [combine req1]                       [combine req2]
+    // rq queue: ... -> req2 -> [ read request -> write request ] -> req1 -> [req5 -> req6] -> ...
     sqe = io_uring_get_sqe(ring);                            // 获取可用 SQE
     io_uring_prep_readv(sqe, infd, &data->iov, 1, offset);   // 准备 read 请求
-    sqe->flags |= IOSQE_IO_LINK;                             // 设置为 LINK 模式
+    sqe->flags |= IOSQE_IO_LINK;                             // 设置为 LINK 模式，当前sqe设置为link后，后一个sqe会被自动链接到这个sqe，
+                                                             // 确保链接的请求按照顺序执行，其中一个请求失败，后续请求都将会取消
     io_uring_sqe_set_data(sqe, data);                        // 设置 data
 
     sqe = io_uring_get_sqe(ring);                            // 获取另一个可用 SQE
@@ -238,7 +242,7 @@ static void queue_rw_pair(struct io_uring *ring, off_t size, off_t offset,
 
 // 处理完成（completion）事件：释放 SQE 的内存缓冲区，通知内核已经消费了 CQE。
 static int handle_cqe(struct io_uring *ring, struct io_uring_cqe *cqe,
-                      int infd, int outfd) {
+                      int infd, int outfd, unsigned &inflight) {
     int ret = 0;
     struct io_data *data = (struct io_data *)io_uring_cqe_get_data(cqe);       // 获取 CQE
     data->index++;
@@ -287,6 +291,8 @@ static int get_file_size(int fd, off_t *size) {
 Task copy_file1(const fs::path src, const fs::path dst) {
     struct io_uring_cqe *cqe;
     struct io_uring ring;
+    // IOUring当前队列进行系统调用的数量
+    unsigned inflight = 0;
     off_t offset = 0;
     off_t insize = 0;
     size_t this_size;
@@ -314,7 +320,6 @@ Task copy_file1(const fs::path src, const fs::path dst) {
     offset = 0;
     while (insize) {                      // 数据还没处理完
         int has_inflight = inflight;      // 当前正在进行中的 SQE 数量
-        int depth;  // SQE 阈值，当前进行中的 SQE 数量（inflight）超过这个值之后，需要阻塞等待 CQE 完成
         int schedCount = 0;
 
         while (insize && inflight < QD) { // 数据还没处理完，io_uring 队列也还没用完
@@ -327,22 +332,19 @@ Task copy_file1(const fs::path src, const fs::path dst) {
             insize -= this_size;
             inflight += 2;                // 正在进行中的 SQE 数量 +2
             schedCount++;
+            // 提高并发，添加3次IO Uring拷贝请求后，提交执行并切换到其他协程
             // Stop and transform to next coroutine
             if (schedCount > 3) {
                 break;
             }
         }
 
-        if (has_inflight != inflight)     // 如果有新创建的 SQE，
-            io_uring_submit(&ring);        // 就提交给内核
+        if (has_inflight != inflight) {   // 如果有新创建的 SQE，
+            io_uring_submit(&ring);       // 提交给内核执行
+        }
 
-        if (insize)                       // 如果还有 data 等待处理，
-            depth = QD;                   // 阈值设置 SQ 的队列长度，即 SQ 队列用完才开始阻塞等待 CQE；
-        else                              // data 处理已经全部提交，
-            depth = 1;                    // 阈值设置为 1，即只要还有 SQE 未完成，就阻塞等待 CQE
-
-        // 下面这个 while 只有 SQ 队列用完或 data 全部提交之后才会执行到
-        while (inflight >= depth) {       // 如果所有 SQE 都已经用完，或者所有 data read->write 请求都已经提交
+        // 检查IO Uring queue中请求执行情况，对执行的请求进行确认
+        while (inflight > 0) {            // 如果所有 SQE 都已经用完，或者所有 data read->write 请求都已经提交
             while (true) {
                 int ret = io_uring_peek_cqe(&ring, &cqe);
                 if (ret != 0 || cqe == NULL) {
@@ -352,9 +354,10 @@ Task copy_file1(const fs::path src, const fs::path dst) {
                     break;
                 }
             }
-            handle_cqe(&ring, cqe, in_fd, out_fd);        // 处理 completion 事件：释放 SQE 内存缓冲区，通知内核 CQE 已消费
-            inflight--;                   // 正在进行中的 SQE 数量 -1
+            handle_cqe(&ring, cqe, in_fd, out_fd, inflight);        // 处理 completion 事件：释放 SQE 内存缓冲区，通知内核 CQE 已消费
+            inflight--;                                             // 正在进行中的 SQE 数量 -1
         }
+        // 提高并发，切换到其他协程执行
         // transform to next coroutine
         co_await std::suspend_always{};
     }
@@ -500,7 +503,7 @@ Task copy_file1(const fs::path src, const fs::path dst) {
 
 Task copy_directory(const fs::path& src_dir, const fs::path& dst_dir) {
     // 协程任务划分
-    
+
     for (const auto& entry : fs::recursive_directory_iterator(src_dir)) {
         const auto& src_path = entry.path();
         auto dst_path = dst_dir / fs::relative(src_path, src_dir);
@@ -530,11 +533,11 @@ int main() {
     fs::path dst_dir = "/Users/luoqiangwei/Downloads/testb";
 #elif defined(__linux__)
     // Use for PC
-//    fs::path src_dir = "/home/miovea/OVEA_HOME/Person/Test";
-//    fs::path dst_dir = "/home/miovea/OVEA_HOME/Person/Test1";
+    fs::path src_dir = "/home/miovea/OVEA_HOME/Person/Test";
+    fs::path dst_dir = "/home/miovea/OVEA_HOME/Person/Test1";
     // Use for ECS
-     fs::path src_dir = "/root/testa";
-     fs::path dst_dir = "/root/testb";
+    // fs::path src_dir = "/root/testa";
+    // fs::path dst_dir = "/root/testb";
 #endif
     fs::create_directories(dst_dir);
 
@@ -588,4 +591,3 @@ int main() {
 
     return 0;
 }
-

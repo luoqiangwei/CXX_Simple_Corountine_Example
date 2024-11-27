@@ -499,6 +499,18 @@ Task copy_file1(const fs::path src, const fs::path dst) {
 }
 #endif
 
+// 定义一个Awaitable接口来处理文件拷贝
+struct CopyFile {
+    fs::path src_path;
+    fs::path dst_path;
+    bool await_ready() {
+        scheduler.schedule(copy_file1(src_path, dst_path).coro_handle);
+        return true;
+    }
+    void await_suspend(std::coroutine_handle<Task::promise_type> h) {}
+    int await_resume() { return 0; }
+};
+
 Task copy_directory(const fs::path& src_dir, const fs::path& dst_dir) {
     // 协程任务划分
 
@@ -508,7 +520,7 @@ Task copy_directory(const fs::path& src_dir, const fs::path& dst_dir) {
         if (entry.is_directory()) {
             fs::create_directories(dst_path);
         } else if (entry.is_regular_file()) {
-            scheduler.schedule(copy_file1(src_path, dst_path).coro_handle);
+            co_await CopyFile({src_path, dst_path});
         }
     }
     co_return;
@@ -531,11 +543,11 @@ int main() {
     fs::path dst_dir = "/Users/luoqiangwei/Downloads/testb";
 #elif defined(__linux__)
     // Use for PC
-    fs::path src_dir = "/home/miovea/OVEA_HOME/Person/Test";
-    fs::path dst_dir = "/home/miovea/OVEA_HOME/Person/Test1";
+//    fs::path src_dir = "/home/miovea/OVEA_HOME/Person/Test";
+//    fs::path dst_dir = "/home/miovea/OVEA_HOME/Person/Test1";
     // Use for ECS
-    // fs::path src_dir = "/root/testa";
-    // fs::path dst_dir = "/root/testb";
+     fs::path src_dir = "/root/testa";
+     fs::path dst_dir = "/root/testb";
 #endif
     fs::create_directories(dst_dir);
 

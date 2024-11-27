@@ -3,4 +3,112 @@
    uuid = "B0BF9834-4FCB-4163-9EB2-79939E7D8114"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "96FB39C8-50B8-4ED2-91DA-E497354E13FD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FunctionCallCXX/main.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "12"
+            endingLineNumber = "12"
+            landmarkName = "print(sum)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7DE09848-B160-4BB6-A751-91F6AE2A3348"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GuessCoroutine/main.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
+            landmarkName = "Guess(note)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "7DE09848-B160-4BB6-A751-91F6AE2A3348 - d076e13cab6478bb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Guess(CoRet::Note&amp;)"
+                  moduleName = "GuessCoroutine"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/luoqiangwei/Documents/Learning/C++/Coroutine/GuessCoroutine/main.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "109"
+                  endingLineNumber = "109">
+               </Location>
+               <Location
+                  uuid = "7DE09848-B160-4BB6-A751-91F6AE2A3348 - adbb27e780dcc271"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Guess(CoRet::Note&amp;) (.resume)"
+                  moduleName = "GuessCoroutine"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/luoqiangwei/Documents/Learning/C++/Coroutine/GuessCoroutine/main.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "109"
+                  endingLineNumber = "109">
+               </Location>
+               <Location
+                  uuid = "7DE09848-B160-4BB6-A751-91F6AE2A3348 - 266d50afe2429cef"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Guess(CoRet::Note&amp;) (.destroy)"
+                  moduleName = "GuessCoroutine"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/luoqiangwei/Documents/Learning/C++/Coroutine/GuessCoroutine/main.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "109"
+                  endingLineNumber = "109">
+               </Location>
+               <Location
+                  uuid = "7DE09848-B160-4BB6-A751-91F6AE2A3348 - 419db2c1d7f264c9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Guess(CoRet::Note&amp;) (.cleanup)"
+                  moduleName = "GuessCoroutine"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/luoqiangwei/Documents/Learning/C++/Coroutine/GuessCoroutine/main.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "109"
+                  endingLineNumber = "109">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "29188B79-1E1A-4238-83B7-796015201A67"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GuessCoroutine/main.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "main(argc, argv)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

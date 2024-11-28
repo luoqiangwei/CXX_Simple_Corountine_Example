@@ -52,7 +52,7 @@ struct CoRet {
         }
 
         // 控制co_yield
-        suspend_never yield_value(int r) {
+        suspend_always yield_value(int r) {
             _out = r;
             return {};
         }
@@ -115,7 +115,7 @@ CoRet Guess(CoRet::Note& note) {
         cout << "coroutine: You guess " << g << ", res: " << res << endl;
         int result = res < g ? 1 : (res == g ? 0 : -1);
         // co_await promise.yield_value();
-        // 不中断协程执行，并且返回一个值
+        // 中断协程执行，并且返回一个值
         co_yield result;
         if (result == 0) break;
     }
@@ -136,7 +136,9 @@ int main(int argc, const char * argv[]) {
     while (true) {
         std::cin >> note.guess;
         cout << "main: You input: " << note.guess << endl;
-        // 继续执行协程
+        // 继续执行协程，从co_await恢复运行
+        ret._h.resume();
+        // 继续执行协程，从co_yield恢复运行
         ret._h.resume();
         cout << "main: result is " <<
             ((ret._h.promise()._out == 1) ? "larger" :
